@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>1116-JS計時器</title>
+        <style>
+            .digit{
+                font-size: 100pt;
+            }
+        </style>
+        <script>
+            var timer_sec=0;/*全域變數*/
+            var timer_id=1;
+
+            function timer_star(){
+                timer_id=setInterval(function(){
+                    timer_sec++;
+                    if(timer_sec<10){
+                        //document.getElementById("timer").innerHTML="0+timer_sec";
+                        document.getElementById("timer").innerHTML=`0${timer_sec}`;
+                    }else{
+                        document.getElementById("timer").innerHTML=timer_sec;
+                    }
+                },1000);
+                
+                /*setInterval 多久做一次，會一直重複，需要加上clearInterval 終止
+                  setTimeout 時間到了就做某事*/
+                setTimeout()
+                clearTimeout()
+            }
+            function timer_stop(){
+                if(timer_id<0) return;
+                clearInterval(timer_id);
+                timer_id=1;
+                
+            }
+            function timer_reset(){
+                timer_stop();
+                document.getElementById("timer").innerHTML="00";
+                timer_sec=0;
+            }
+            //---------------------------------------------------------------
+            function getRandom(min,max){
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            function getlottery(){
+                setInterval(()=>{
+                    document.getElementById("lottery").innerHTML=getRandom(0,99);
+                },10);
+                
+                setTimeout(clearInterval,3000,setInterval(()=>{
+                    var x=getRandom(0,99);
+                    document.getElementById("lottery").innerHTML=((x<10)?"0":"")+x;
+                },100));
+            }
+            //-------------------------------------------------------------------
+            function getDice(img){
+            setTimeout(clearInterval,3000,
+               setInterval((img)=>{
+                img.src=`dices${getRandom(1,6)}.png`;
+               },50,event.target)
+                );
+            }
+
+        </script>
+    </head>
+    <body>
+        <div id="timer" class="digit">00</div>
+        <button onclick="timer_star()">開始</button>
+        <button onclick="timer_stop()">暫停</button>
+        <button onclick="timer_reset()">重設</button>
+        <hr>
+        <div id="lottery" class="digit">00</div>
+        <button onclick="getlottery()">樂透</button>
+        <img src="dices.png" width="100px" onclick="getDice()">
+    </body>
+</html>
